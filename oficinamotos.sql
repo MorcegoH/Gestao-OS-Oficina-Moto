@@ -28,7 +28,12 @@ values(
 	'Joaquin','joaquin',md5('123@senac'),'atendente'
 );
 
+-- CRUD Update
+update usuarios set senha = md5('123@Senac') where id = 1; 
+update usuarios set perfil = 'gerente' where id = 2;
+
 describe usuarios;
+select * from usuarios;
 
 create table clientes(
 	idcli int primary key auto_increment,
@@ -69,6 +74,12 @@ values(
 	'Daniel','45825214145','87654321','Rua Cinco','595','Casa','Vila Cinco','São Paulo','SP','','987654321','example@daniel.com'
 );
 
+-- CRUD Update
+update clientes set cel = '11987654321' where idcli = 3;
+update clientes set cel = '11987654321' where idcli = 4;
+update clientes set cel = '11987654321' where idcli = 5;
+update clientes set fone = '1195865469' where idcli = 3;
+
 select * from clientes;
 
 create table tbos(
@@ -82,11 +93,14 @@ create table tbos(
     ano char(4) not null,
     placa char(7) unique,
     combustivel varchar(20) not null,
-    tecnico varchar(50),
+    tecnico int not null,
+    foreign key(tecnico) references usuarios(id),
     valor decimal(10,2),
     chassi char(17) not null unique,
     idcli int not null, 
-    foreign key(idcli) references clientes(idcli)
+    foreign key(idcli) references clientes(idcli),
+    garantia date,
+    datasaida date
 );
 
 drop table tbos;
@@ -94,22 +108,63 @@ describe tbos;
 
 insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli)
 values(
-	'Orçamento','Corrente frouxa','Corrente frouxa','Vespa','Lambretta','2021','HGJ6458','Gasolina','Maria','250','42043lXZuYw011150','1'
+	'Orçamento','Corrente frouxa','Corrente frouxa','Vespa','Lambretta','2021','HGJ6458','Gasolina',1,250,'42043lXZuYw011150','1'
 );
 
 insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli)
 values(
-	'Orçamento','Problema na partida','Relé de partida quebrado','Dark Horse','Indian','2016','ADS4568','Gasolina','Anderson','5000','6CTl4uKCA5B4X0532','2'
+	'Orçamento','Problema na partida','Relé de partida quebrado','Dark Horse','Indian','2016','ADS4568','Gasolina',2,5000,'6CTl4uKCA5B4X0532','2'
+);
+
+insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli,garantia)
+values(
+	'Serviço','Ajuste de freio','Troca da lona','Fan 150','Honda','2017','DSH4652','Gasolina',3,300,'7F1jEs91ll1E76580','3',20220116
 );
 
 insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli)
 values(
-	'Serviço','Ajuste de freio','Troca da lona','Fan 150','Honda','2017','DSH4652','Gasolina','Andrew','300','7F1jEs91ll1E76580','3'
+	'Orçamento','Vela','Chicote','Virago 535','Yamaha','2005','NJD1325','Gasolina',3,500,'4LlGA9R9sXKAy5626','3'
 );
 
-insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli)
+insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli,garantia,datasaida)
 values(
-	'Orçamento','Vela','Chicote','Virago 535','Yamaha','2005','NJD1325','Gasolina','Andrew','500','4LlGA9R9sXKAy5626','3'
+	'Finalizado','Troca de óleo','Troca de óleo','F800','BMW','2019','SDH8485','Gasolina',2,80,'2VKC546DkAUCK8945','2',20220217,'20211014'
 );
+
+insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli,garantia,datasaida)
+values(
+	'Finalizado','Filtro de ar','e troca de óleo','Twister','Honda','2015','JUD4568','Gasolina',1,550.25,'25lnDum3DAzSu8566','1',20220324,20211005
+);
+
+-- CRUD Update
+update tbos set valor = 85 where os = 5;
+update tbos set valor = 550 where os = 4;
 
 select * from tbos;
+
+-- relatorio de tipo da OS 1
+select
+	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone as telefone,clientes.cel as celular,
+    tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.tipo
+from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Orçamento';
+
+-- relatorio de tipo da OS 2
+select
+	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone as telefone,clientes.cel as celular,
+    tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.tipo
+from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Serviço';
+
+-- relatorio de tipo da OS 3
+select
+	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone as telefone,clientes.cel as celular,
+    tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.tipo,
+    date_format(tbos.datasaida,'%d/%m/%Y - %H:%i') as retirada,date_format(tbos.garantia,'%d/%m/%Y - %H:%i') as garantia
+from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Finalizado';
+
+-- relatorio do faturamento
+select sum(valor) as total from tbos;
+
+-- relatorio garantia
+select 
+	tbos.os as OS,clientes.nome,tbos.modelo,date_format(tbos.datasaida,'%d/%m/%Y') as retirada,datediff(tbos.garantia,curdate()) as garantia_restante
+from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Finalizado';
