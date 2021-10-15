@@ -50,28 +50,30 @@ create table clientes(
     cel varchar(15) not null,
     email varchar(100) unique
 );
-
+drop table clientes;
+alter table clientes add column cnh char(12) unique after nome;
+alter table clientes change doc cpf varchar(250) not null;
 describe clientes;
 
-insert into clientes(nome,doc,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
+insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
 values(
-	'Heder','5827364728','04673645','Rua Um','168','Casa','Vila Um','São Paulo','SP','','11973849285','example@heder.com'
+	'Heder',10165879162,'5827364728','04673645','Rua Um','168','Casa','Vila Um','São Paulo','SP','','11973849285','example@heder.com'
 );
-insert into clientes(nome,doc,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
+insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
 values(
-	'Vitor','87654321213','07485394','Rua Dois','867','Casa','Vila Dois','São Paulo','SP','','11987654321','example@vitor.com'
+	'Vitor',54476764388,'87654321213','07485394','Rua Dois','867','Casa','Vila Dois','São Paulo','SP','','11987654321','example@vitor.com'
 );
-insert into clientes(nome,doc,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
+insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
 values(
-	'Cassio','54862514586','87654321','Rua Tres','145','Casa','Vila Tres','São Paulo','SP','','987654321','example@cassio.com'
+	'Cassio',31432391440,'54862514586','87654321','Rua Tres','145','Casa','Vila Tres','São Paulo','SP','','987654321','example@cassio.com'
 );
-insert into clientes(nome,doc,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
+insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
 values(
-	'Ismael','52586895963','87654321','Rua Quatro','589','Casa','Vila Quatro','São Paulo','SP','','987654321','example@ismael.com'
+	'Ismael',50067056880,'52586895963','87654321','Rua Quatro','589','Casa','Vila Quatro','São Paulo','SP','','987654321','example@ismael.com'
 );
-insert into clientes(nome,doc,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
+insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
 values(
-	'Daniel','45825214145','87654321','Rua Cinco','595','Casa','Vila Cinco','São Paulo','SP','','987654321','example@daniel.com'
+	'Daniel',70346927302,'45825214145','87654321','Rua Cinco','595','Casa','Vila Cinco','São Paulo','SP','','987654321','example@daniel.com'
 );
 
 -- CRUD Update
@@ -145,19 +147,19 @@ select * from tbos;
 -- relatorio de tipo da OS 1
 select
 	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone as telefone,clientes.cel as celular,
-    tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.tipo
+    tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.valor,tbos.tipo
 from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Orçamento';
 
 -- relatorio de tipo da OS 2
 select
 	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone as telefone,clientes.cel as celular,
-    tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.tipo
+    tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.valor,tbos.tipo
 from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Serviço';
 
 -- relatorio de tipo da OS 3
 select
 	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone as telefone,clientes.cel as celular,
-    tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.tipo,
+    tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.valor,tbos.tipo,
     date_format(tbos.datasaida,'%d/%m/%Y - %H:%i') as retirada,date_format(tbos.garantia,'%d/%m/%Y - %H:%i') as garantia
 from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Finalizado';
 
@@ -166,5 +168,5 @@ select sum(valor) as total from tbos;
 
 -- relatorio garantia
 select 
-	tbos.os as OS,clientes.nome,tbos.modelo,date_format(tbos.datasaida,'%d/%m/%Y') as retirada,datediff(tbos.garantia,curdate()) as garantia_restante
+	tbos.os as OS,clientes.nome,tbos.modelo,date_format(tbos.datasaida,'%d/%m/%Y') as retirada,tbos.valor,datediff(tbos.garantia,curdate()) as garantia_restante
 from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Finalizado';
