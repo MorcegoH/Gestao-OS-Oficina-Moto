@@ -1,23 +1,28 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.Toolkit;
 import java.awt.Color;
-import javax.swing.JLabel;
+import java.awt.EventQueue;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.util.Date;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.SystemColor;
-import javax.swing.JTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import java.awt.Font;
 
 public class Oficina extends JFrame {
 
 	private JPanel bcg;
+	private JLabel lblTime;
 
 	/**
 	 * Launch the application.
@@ -39,6 +44,15 @@ public class Oficina extends JFrame {
 	 * Create the frame.
 	 */
 	public Oficina() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// evento disparado ao ativar o JFrame
+				setarData();
+			}
+		});
+		setResizable(false);
+		setTitle("Sistema de Gest\u00E3o");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Oficina.class.getResource("/icon/icon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 780, 422);
@@ -59,8 +73,10 @@ public class Oficina extends JFrame {
 		lblNewLabel.setBounds(10, 10, 32, 32);
 		panel.add(lblNewLabel);
 		
-		JLabel lblTime = new JLabel("New label");
-		lblTime.setBounds(455, 11, 299, 28);
+		lblTime = new JLabel("");
+		lblTime.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTime.setForeground(Color.WHITE);
+		lblTime.setBounds(401, 11, 353, 28);
 		panel.add(lblTime);
 		
 		JButton btnUser = new JButton("");
@@ -85,6 +101,13 @@ public class Oficina extends JFrame {
 		bcg.add(btnRelat);
 		
 		JButton btnSobre = new JButton("");
+		btnSobre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//clicar no botao
+				Sobre sobre = new Sobre(); //criar objeto
+				sobre.setVisible(true); //exibit o JDialog Sobre
+			}
+		});
 		btnSobre.setIcon(new ImageIcon(Oficina.class.getResource("/icon/sobre.png")));
 		btnSobre.setToolTipText("Sobre");
 		btnSobre.setBackground(SystemColor.scrollbar);
@@ -95,5 +118,22 @@ public class Oficina extends JFrame {
 		lblNewLabel_1.setIcon(new ImageIcon(Oficina.class.getResource("/icon/iconmoto1.png")));
 		lblNewLabel_1.setBounds(332, 11, 64, 64);
 		bcg.add(lblNewLabel_1);
+		
+		JButton btnOs = new JButton("");
+		btnOs.setBackground(SystemColor.scrollbar);
+		btnOs.setIcon(new ImageIcon(Oficina.class.getResource("/icon/os.png")));
+		btnOs.setBounds(300, 179, 128, 128);
+		bcg.add(btnOs);
+	} // fim do construtor
+	
+	/**
+	 * Metodo responsavel por setar a data e hora do rodape
+	 */
+	private void setarData() {
+		// as linhas abaixo sao usadas para obter e formatar a hora do sistema
+		Date dataLabel = new Date();
+		DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
+		// a linha abaixo substitui a label do rodape pela data
+		lblTime.setText(formatador.format(dataLabel));
 	}
 }

@@ -33,9 +33,10 @@ public class Sobre extends JDialog {
 	 * Create the dialog.
 	 */
 	public Sobre() {
+		setModal(true);
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Sobre.class.getResource("/icon/icon.png")));
 		setBackground(Color.LIGHT_GRAY);
-		setEnabled(false);
 		setBounds(100, 100, 435, 266);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.LIGHT_GRAY);
@@ -44,17 +45,17 @@ public class Sobre extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			JLabel lblNewLabel = new JLabel("Sistema de Gerenciamento Oficina Moto - Version 1.0");
-			lblNewLabel.setBounds(30, 29, 261, 14);
+			lblNewLabel.setBounds(30, 29, 356, 14);
 			contentPanel.add(lblNewLabel);
 		}
 		{
 			JLabel lblNewLabel_1 = new JLabel("Autores: Aryon, Heder, Ismael");
-			lblNewLabel_1.setBounds(30, 54, 249, 14);
+			lblNewLabel_1.setBounds(30, 54, 356, 14);
 			contentPanel.add(lblNewLabel_1);
 		}
 		{
 			JLabel lblNewLabel_2 = new JLabel("Sob Licen\u00E7a MIT");
-			lblNewLabel_2.setBounds(30, 79, 84, 14);
+			lblNewLabel_2.setBounds(30, 79, 308, 14);
 			contentPanel.add(lblNewLabel_2);
 		}
 		{
