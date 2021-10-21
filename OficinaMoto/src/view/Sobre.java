@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
+@SuppressWarnings("serial")
 public class Sobre extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();

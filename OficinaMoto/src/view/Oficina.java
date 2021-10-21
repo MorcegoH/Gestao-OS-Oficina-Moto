@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
 
+@SuppressWarnings("serial")
 public class Oficina extends JFrame {
 
 	private JPanel bcg;
@@ -87,6 +88,12 @@ public class Oficina extends JFrame {
 		bcg.add(btnUser);
 		
 		JButton btnClient = new JButton("");
+		btnClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Clientes clientes = new Clientes();
+				clientes.setVisible(true);
+			}
+		});
 		btnClient.setBackground(SystemColor.scrollbar);
 		btnClient.setIcon(new ImageIcon(Oficina.class.getResource("/icon/client.png")));
 		btnClient.setToolTipText("Clientes");
