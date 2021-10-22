@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -17,6 +18,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.DAO;
+
 import java.awt.Font;
 
 @SuppressWarnings("serial")
@@ -24,6 +28,7 @@ public class Oficina extends JFrame {
 
 	private JPanel bcg;
 	private JLabel lblTime;
+	private JLabel lblStatus;
 
 	/**
 	 * Launch the application.
@@ -50,6 +55,7 @@ public class Oficina extends JFrame {
 			public void windowActivated(WindowEvent e) {
 				// evento disparado ao ativar o JFrame
 				setarData();
+				status();
 			}
 		});
 		setResizable(false);
@@ -69,10 +75,10 @@ public class Oficina extends JFrame {
 		bcg.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Oficina.class.getResource("/icon/dbof.png")));
-		lblNewLabel.setBounds(10, 10, 32, 32);
-		panel.add(lblNewLabel);
+		lblStatus = new JLabel("");
+		lblStatus.setIcon(new ImageIcon(Oficina.class.getResource("/icon/dbof.png")));
+		lblStatus.setBounds(10, 10, 32, 32);
+		panel.add(lblStatus);
 		
 		lblTime = new JLabel("");
 		lblTime.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -142,5 +148,32 @@ public class Oficina extends JFrame {
 		DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
 		// a linha abaixo substitui a label do rodape pela data
 		lblTime.setText(formatador.format(dataLabel));
+	}
+	
+	/**
+	 * Método responsável pela exibição do status de conexão
+	 */
+	private void status() {
+		// criar um objeto de nome dao para acessar o método de conexão
+		DAO dao = new DAO();
+		try {
+			// abrir a conexão com o banco
+			Connection con = dao.conectar();
+
+			// a linha abaixo exibe o retorno da conexão
+			System.out.println(con);
+
+			// mudando o ícone do rodapé no caso do banco de dados estar disponível
+			if (con != null) {
+				lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/dbon.png")));
+			} else {
+				lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/dbof.png")));
+			}
+
+			// IMPORTANTE! Sempre encerrar a conexão
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 }
