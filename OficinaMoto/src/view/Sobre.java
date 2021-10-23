@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unused" })
 public class Sobre extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -65,6 +65,6 @@ public class Sobre extends JDialog {
 			lblMit.setBounds(304, 140, 64, 64);
 			contentPanel.add(lblMit);
 		}
-	}
+	}// end of the constructor
 
 }

@@ -21,6 +21,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
 
+@SuppressWarnings({ "unused", "serial" })
 public class Login extends JFrame {
 
 	private JPanel contentPane;
@@ -63,54 +64,48 @@ public class Login extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Usu\u00E1rio");
 		lblNewLabel.setBounds(88, 60, 46, 14);
 		contentPane.add(lblNewLabel);
-		
+
 		txtUsuario = new JTextField();
 		txtUsuario.setBounds(144, 57, 200, 20);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Senha");
 		lblNewLabel_1.setBounds(88, 85, 46, 14);
 		contentPane.add(lblNewLabel_1);
-		
+
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.setBounds(88, 171, 89, 23);
 		contentPane.add(btnEntrar);
-		
+
 		lblStatus = new JLabel("");
 		lblStatus.setIcon(new ImageIcon(Login.class.getResource("/icon/dbof.png")));
 		lblStatus.setBounds(312, 162, 32, 32);
 		contentPane.add(lblStatus);
-		
+
 		txtSenha = new JPasswordField();
 		txtSenha.setBounds(144, 88, 200, 20);
 		contentPane.add(txtSenha);
-	} // fim do construtor
-	
+	} // end of the constructor
+
 	/**
 	 * Método responsável pela exibição do status de conexão
 	 */
 	private void status() {
-		// criar um objeto de nome dao para acessar o método de conexão
 		DAO dao = new DAO();
 		try {
-			// abrir a conexão com o banco
 			Connection con = dao.conectar();
-
-			// a linha abaixo exibe o retorno da conexão
 			System.out.println(con);
 
-			// mudando o ícone do rodapé no caso do banco de dados estar disponível
 			if (con != null) {
 				lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/dbon.png")));
 			} else {
 				lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/dbof.png")));
 			}
-
 			// IMPORTANTE! Sempre encerrar a conexão
 			con.close();
 		} catch (Exception e) {

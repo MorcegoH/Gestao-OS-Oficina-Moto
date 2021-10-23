@@ -11,6 +11,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import Atxy2k.CustomTextField.RestrictedTextField;
+import model.DAO;
+import net.proteanit.sql.DbUtils;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,12 +24,19 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Iterator;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class Clientes extends JDialog {
-	private JTextField textField;
+	private JTextField txtPesquisar;
 	private JTextField txtCep;
 	private JTextField txtIdCli;
 	private JTextField txtNome;
@@ -44,6 +53,7 @@ public class Clientes extends JDialog {
 	@SuppressWarnings("rawtypes")
 	private JComboBox cboUf;
 	private JLabel lblStatus;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -73,10 +83,16 @@ public class Clientes extends JDialog {
 		setBounds(150, 150, 758, 454);
 		getContentPane().setLayout(null);
 
-		textField = new JTextField();
-		textField.setBounds(15, 15, 200, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		txtPesquisar = new JTextField();
+		txtPesquisar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				pesquisarCliente();
+			}
+		});
+		txtPesquisar.setBounds(15, 15, 200, 20);
+		getContentPane().add(txtPesquisar);
+		txtPesquisar.setColumns(10);
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Clientes.class.getResource("/icon/lupa.png")));
@@ -86,6 +102,13 @@ public class Clientes extends JDialog {
 		JDesktopPane desktopPane = new JDesktopPane();
 		desktopPane.setBounds(15, 46, 703, 114);
 		getContentPane().add(desktopPane);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 703, 114);
+		desktopPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
 
 		JLabel lblCep = new JLabel("CEP");
 		lblCep.setBounds(15, 243, 32, 14);
@@ -306,6 +329,20 @@ public class Clientes extends JDialog {
 			}
 
 			txtEndereco.setText(tipoLogradouro + " " + logradouro);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	DAO dao = new DAO();
+	private void pesquisarCliente() {
+		String read = "select idcli as ID, nome as Cliente, cnh as CNH, cpf as CPF, cep as CEP, endereco as Endereço, numero as Número, complemento as Complemento, bairro as Bairro, cidade as Cidade, uf as UF, fone as Telefone, cel as Celular, email as Email from clientes where nome like ?";
+		try {
+			Connection con = dao.conectar();
+			PreparedStatement pst = con.prepareStatement(read);
+			pst.setString(1, txtPesquisar.getText() + "%");
+			ResultSet rs = pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));
 		} catch (Exception e) {
 			System.out.println(e);
 		}

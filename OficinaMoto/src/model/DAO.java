@@ -13,7 +13,7 @@ public class DAO {
 
 	// parametros de conexão
 	private String driver = "com.mysql.cj.jdbc.Driver";
-	private String url = "jdbc:mysql://10.26.45.112:3306/oficina";
+	private String url = "jdbc:mysql://10.26.45.111:3306/oficina";
 	private String user = "dba";
 	private String password = "123@Senac";
 
