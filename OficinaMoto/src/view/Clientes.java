@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JDialog;
 import java.awt.Toolkit;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -138,6 +139,7 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblNewLabel_1);
 
 		txtIdCli = new JTextField();
+		txtIdCli.setEditable(false);
 		txtIdCli.setColumns(10);
 		txtIdCli.setBounds(49, 171, 40, 20);
 		getContentPane().add(txtIdCli);
@@ -258,18 +260,25 @@ public class Clientes extends JDialog {
 		getContentPane().add(cboUf);
 
 		JButton btnAdicionar = new JButton("");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				adicionarCliente();
+			}
+		});
 		btnAdicionar.setIcon(new ImageIcon(Clientes.class.getResource("/icon/create.png")));
 		btnAdicionar.setToolTipText("Adicionar");
 		btnAdicionar.setBounds(15, 330, 70, 70);
 		getContentPane().add(btnAdicionar);
 
 		JButton btnEditar = new JButton("");
+		btnEditar.setEnabled(false);
 		btnEditar.setIcon(new ImageIcon(Clientes.class.getResource("/icon/update.png")));
 		btnEditar.setToolTipText("Editar");
 		btnEditar.setBounds(90, 328, 70, 70);
 		getContentPane().add(btnEditar);
 
 		JButton btnExcluir = new JButton("");
+		btnExcluir.setEnabled(false);
 		btnExcluir.setIcon(new ImageIcon(Clientes.class.getResource("/icon/delete.png")));
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setBounds(170, 328, 70, 70);
@@ -346,5 +355,112 @@ public class Clientes extends JDialog {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	}// fim do método pesquisarCliente()
+	
+	/**
+	 * método responsável por adicionar um cliente no banco
+	 */
+	private void adicionarCliente() {
+		// validação de campos obrigatórios
+		if (txtNome.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Nome", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtNome.requestFocus();
+		} else if (txtFone1.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Fone1", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtFone1.requestFocus();
+		} else if (txtCpf.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo CPF", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtCpf.requestFocus();
+		} else if (txtCnh.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo CNH", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtCnh.requestFocus();
+		} else if (txtFone2.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Fone2", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtFone2.requestFocus();
+		} else if (txtEmail.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Email", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtEmail.requestFocus();
+		} else if (txtCep.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo CEP", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtCep.requestFocus();
+		} else if (txtEndereco.getText().isEmpty()){
+			JOptionPane.showMessageDialog(null, "Preencha o campo Endereco", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtEndereco.requestFocus();
+		} else if (txtNumero.getText().isEmpty()){
+			JOptionPane.showMessageDialog(null, "Preencha o campo Número", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtNumero.requestFocus();
+		} else if (txtComplemento.getText().isEmpty()){
+			JOptionPane.showMessageDialog(null, "Preencha o campo Complemento", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtComplemento.requestFocus();
+		} else if (txtBairro.getText().isEmpty()){
+			JOptionPane.showMessageDialog(null, "Preencha o campo Bairro", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtBairro.requestFocus();
+		} else if (txtCidade.getText().isEmpty()){
+			JOptionPane.showMessageDialog(null, "Preencha o campo Cidade", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtCidade.requestFocus();
+		} else if (cboUf.getSelectedItem().equals("")){
+			JOptionPane.showMessageDialog(null, "Preencha o campo UF", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			cboUf.requestFocus();
+		} else {
+		
+			// inserir o cliente no banco
+			String create = "insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email) values(?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			try {
+				Connection con = dao.conectar();
+				PreparedStatement pst = con.prepareStatement(create);
+				pst.setString(1, txtNome.getText());
+				pst.setString(2, txtCnh.getText());
+				pst.setString(3, txtCpf.getText());
+				pst.setString(4, txtCep.getText());
+				pst.setString(5, txtEndereco.getText());
+				pst.setString(6, txtNumero.getText());
+				pst.setString(7, txtComplemento.getText());
+				pst.setString(7, txtBairro.getText());
+				pst.setString(7, txtCidade.getText());
+				pst.setString(8, cboUf.getSelectedItem().toString());
+				pst.setString(7, txtFone1.getText());
+				pst.setString(7, txtFone2.getText());
+				pst.setString(7, txtEmail.getText());
+				
+				// criando uma variavel que irá executar a query e receber o valor 1 em caso
+				// positivo (inserção do cliente no banco)
+				int confirma = pst.executeUpdate();
+				if (confirma == 1) {
+					JOptionPane.showMessageDialog(null, "Cliente incluido com sucesso", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+					con.close();
+					limpar();
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+	}// fim do método adicionarCliente()
+	
+	/**
+	 * Limpar os campos
+	 */
+	
+	private void limpar() {
+		// limpar campos
+		txtPesquisar.setText(null);
+		txtIdCli.setText(null);
+		txtNome.setText(null);
+		txtCnh.setText(null);
+		txtCpf.setText(null);
+		txtCep.setText(null);
+		txtNome.setText(null);
+		txtEndereco.setText(null);
+		txtNumero.setText(null);
+		txtComplemento.setText(null);
+		txtBairro.setText(null);
+		txtCidade.setText(null);
+		txtNome.setText(null);
+		cboUf.setSelectedItem(null);
+		txtFone1.setText(null);
+		txtFone2.setText(null);
+		txtEmail.setText(null);
+		
+		// limpar tabela
+		((DefaultTableModel) table.getModel()).setRowCount(0);
 	}
 }
