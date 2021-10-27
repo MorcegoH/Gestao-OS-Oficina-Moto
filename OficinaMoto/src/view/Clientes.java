@@ -34,6 +34,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class Clientes extends JDialog {
@@ -109,6 +111,12 @@ public class Clientes extends JDialog {
 		desktopPane.add(scrollPane);
 
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setarCampos();
+			}
+		});
 		scrollPane.setViewportView(table);
 
 		JLabel lblCep = new JLabel("CEP");
@@ -259,7 +267,7 @@ public class Clientes extends JDialog {
 		cboUf.setBounds(550, 296, 51, 22);
 		getContentPane().add(cboUf);
 
-		JButton btnAdicionar = new JButton("");
+		btnAdicionar = new JButton("");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adicionarCliente();
@@ -270,14 +278,14 @@ public class Clientes extends JDialog {
 		btnAdicionar.setBounds(15, 330, 70, 70);
 		getContentPane().add(btnAdicionar);
 
-		JButton btnEditar = new JButton("");
+		btnEditar = new JButton("");
 		btnEditar.setEnabled(false);
 		btnEditar.setIcon(new ImageIcon(Clientes.class.getResource("/icon/update.png")));
 		btnEditar.setToolTipText("Editar");
 		btnEditar.setBounds(90, 328, 70, 70);
 		getContentPane().add(btnEditar);
 
-		JButton btnExcluir = new JButton("");
+		btnExcluir = new JButton("");
 		btnExcluir.setEnabled(false);
 		btnExcluir.setIcon(new ImageIcon(Clientes.class.getResource("/icon/delete.png")));
 		btnExcluir.setToolTipText("Excluir");
@@ -289,14 +297,14 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblStatus);
 
 		/**
-		 * Uso da biblioteca Atxy2k para validação do campo txtCep
+		 * Uso da biblioteca Atxy2k para validacao do campo txtCep
 		 */
 		RestrictedTextField nome = new RestrictedTextField(txtNome);
 		nome.setLimit(50);
 		RestrictedTextField cnh = new RestrictedTextField(txtCnh);
 		cnh.setLimit(12);
 		RestrictedTextField cpf = new RestrictedTextField(txtCpf);
-		cpf.setLimit(250);
+		cpf.setLimit(11);
 		cpf.setOnlyNums(true);
 		RestrictedTextField cep = new RestrictedTextField(txtCep);
 		cep.setLimit(8);
@@ -313,18 +321,27 @@ public class Clientes extends JDialog {
 		RestrictedTextField cidade = new RestrictedTextField(txtCidade);
 		cidade.setLimit(50);
 		RestrictedTextField fone1 = new RestrictedTextField(txtFone1);
-		fone1.setLimit(15);
+		fone1.setLimit(11);
 		fone1.setOnlyNums(true);
 		RestrictedTextField fone2 = new RestrictedTextField(txtFone2);
-		fone2.setLimit(15);
+		fone2.setLimit(11);
 		fone2.setOnlyNums(true);
 		RestrictedTextField email = new RestrictedTextField(txtEmail);
+
+		btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpar();
+			}
+		});
+		btnLimpar.setBounds(643, 360, 89, 23);
+		getContentPane().add(btnLimpar);
 		email.setLimit(250);
 
 	}// end of the constructor
 
 	/**
-	 * Método para buscar o cep no webservise: republicavirtual.com.br
+	 * Metodo para buscar o cep no webservise: republicavirtual.com.br
 	 */
 	private void buscarCep() {
 		String logradouro = "";
@@ -359,7 +376,7 @@ public class Clientes extends JDialog {
 						lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/checked.png")));
 					} else {
 						lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/x-button.png")));
-						JOptionPane.showMessageDialog(null, "CEP não encontrado");
+						JOptionPane.showMessageDialog(null, "CEP nao encontrado");
 					}
 				}
 			}
@@ -368,12 +385,16 @@ public class Clientes extends JDialog {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-	}
+	}// fim do metodo buscarCep()
 
 	DAO dao = new DAO();
+	private JButton btnAdicionar;
+	private JButton btnEditar;
+	private JButton btnExcluir;
+	private JButton btnLimpar;
 
 	private void pesquisarCliente() {
-		String read = "select idcli as ID, nome as Cliente, cnh as CNH, cpf as CPF, cep as CEP, endereco as Endereço, numero as Número, complemento as Complemento, bairro as Bairro, cidade as Cidade, uf as UF, fone as Telefone, cel as Celular, email as Email from clientes where nome like ?";
+		String read = "select idcli as ID, nome as Cliente, cnh as CNH, cpf as CPF, cep as CEP, endereco as Endere�o, numero as N�mero, complemento as Complemento, bairro as Bairro, cidade as Cidade, uf as UF, fone as Telefone, cel as Celular, email as Email from clientes where nome like ?";
 		try {
 			Connection con = dao.conectar();
 			PreparedStatement pst = con.prepareStatement(read);
@@ -383,13 +404,13 @@ public class Clientes extends JDialog {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-	}// fim do método pesquisarCliente()
+	}// fim do metodo pesquisarCliente()
 
 	/**
-	 * método responsável por adicionar um cliente no banco
+	 * metodo respons�vel por adicionar um cliente no banco
 	 */
 	private void adicionarCliente() {
-		// validação de campos obrigatórios
+		// validacao de campos obrigatorios
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo Nome", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtNome.requestFocus();
@@ -400,7 +421,8 @@ public class Clientes extends JDialog {
 			JOptionPane.showMessageDialog(null, "Preencha o campo CPF", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtCpf.requestFocus();
 		} else if (txtEndereco.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo Endereco", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo Endereco", "Atenção !",
+					JOptionPane.WARNING_MESSAGE);
 			txtEndereco.requestFocus();
 		} else if (txtNumero.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo Número", "Atenção !", JOptionPane.WARNING_MESSAGE);
@@ -435,8 +457,8 @@ public class Clientes extends JDialog {
 				pst.setString(12, txtFone2.getText());
 				pst.setString(13, txtEmail.getText());
 
-				// criando uma variavel que irá executar a query e receber o valor 1 em caso
-				// positivo (inserção do cliente no banco)
+				// criando uma variavel que vai executar a query e receber o valor 1 em caso
+				// positivo (insercao do cliente no banco)
 				int confirma = pst.executeUpdate();
 				if (confirma == 1) {
 					JOptionPane.showMessageDialog(null, "Cliente incluido com sucesso", "Mensagem",
@@ -444,11 +466,41 @@ public class Clientes extends JDialog {
 					con.close();
 					limpar();
 				}
+			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+				JOptionPane.showMessageDialog(null, "Cliente j� cadastrado", "Aviso", JOptionPane.WARNING_MESSAGE);
 			} catch (Exception e) {
 				System.out.println(e);
 			}
 		}
-	}// fim do método adicionarCliente()
+	}// fim do metodo adicionarCliente()
+
+	/**
+	 * metodo e responsavel por setar os campos da tabela no formulario
+	 */
+	private void setarCampos() {
+		// a linha abaixo obtem o conteudo da linha da tabela
+		// int (indice = colunas) [0] [1] [2] [3] [4]....
+		int setar = table.getSelectedRow();
+		// setar os campos
+		txtIdCli.setText(table.getModel().getValueAt(setar, 0).toString());
+		txtNome.setText(table.getModel().getValueAt(setar, 1).toString());
+		txtCnh.setText(table.getModel().getValueAt(setar, 2).toString());
+		txtCpf.setText(table.getModel().getValueAt(setar, 3).toString());
+		txtCep.setText(table.getModel().getValueAt(setar, 4).toString());
+		txtEndereco.setText(table.getModel().getValueAt(setar, 5).toString());
+		txtNumero.setText(table.getModel().getValueAt(setar, 6).toString());
+		txtComplemento.setText(table.getModel().getValueAt(setar, 7).toString());
+		txtBairro.setText(table.getModel().getValueAt(setar, 8).toString());
+		txtCidade.setText(table.getModel().getValueAt(setar, 9).toString());
+		cboUf.setSelectedItem(table.getModel().getValueAt(setar, 10).toString());
+		txtFone1.setText(table.getModel().getValueAt(setar, 11).toString());
+		txtFone2.setText(table.getModel().getValueAt(setar, 12).toString());
+		txtEmail.setText(table.getModel().getValueAt(setar, 13).toString());
+		// gerenciar os botoes
+		btnAdicionar.setEnabled(false);
+		btnEditar.setEnabled(true);
+		btnExcluir.setEnabled(true);
+	}
 
 	/**
 	 * Limpar os campos
@@ -474,5 +526,9 @@ public class Clientes extends JDialog {
 		txtEmail.setText(null);
 		// limpar tabela
 		((DefaultTableModel) table.getModel()).setRowCount(0);
+		// gerenciar os botoes
+		btnAdicionar.setEnabled(true);
+		btnEditar.setEnabled(false);
+		btnExcluir.setEnabled(false);
 	}// fim do metodo limpar()
 }
