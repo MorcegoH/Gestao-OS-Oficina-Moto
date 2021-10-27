@@ -394,7 +394,7 @@ public class Clientes extends JDialog {
 	private JButton btnLimpar;
 
 	private void pesquisarCliente() {
-		String read = "select idcli as ID, nome as Cliente, cnh as CNH, cpf as CPF, cep as CEP, endereco as Endereço, numero as Número, complemento as Complemento, bairro as Bairro, cidade as Cidade, uf as UF, fone as Telefone, cel as Celular, email as Email from clientes where nome like ?";
+		String read = "select idcli as ID, nome as Cliente, cnh as CNH, cpf as CPF, cep as CEP, endereco as Endereço, numero as Número, complemento as Complemento, bairro as Bairro, cidade as Cidade, uf as UF, fone1 as Fone1, fone2 as Fone2, email as Email from clientes where nome like ?";
 		try {
 			Connection con = dao.conectar();
 			PreparedStatement pst = con.prepareStatement(read);
@@ -412,34 +412,34 @@ public class Clientes extends JDialog {
 	private void adicionarCliente() {
 		// validacao de campos obrigatorios
 		if (txtNome.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo Nome", "AtenÃ§Ã£o !", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo Nome", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtNome.requestFocus();
 		} else if (txtFone1.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo Fone1", "AtenÃ§Ã£o !", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo Fone1", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtFone1.requestFocus();
 		} else if (txtCpf.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo CPF", "AtenÃ§Ã£o !", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo CPF", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtCpf.requestFocus();
 		} else if (txtEndereco.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo Endereco", "AtenÃ§Ã£o !",
+			JOptionPane.showMessageDialog(null, "Preencha o campo Endereco", "Atenção !",
 					JOptionPane.WARNING_MESSAGE);
 			txtEndereco.requestFocus();
 		} else if (txtNumero.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo NÃºmero", "AtenÃ§Ã£o !", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo NÃºmero", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtNumero.requestFocus();
 		} else if (txtBairro.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo Bairro", "AtenÃ§Ã£o !", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo Bairro", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtBairro.requestFocus();
 		} else if (txtCidade.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo Cidade", "AtenÃ§Ã£o !", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo Cidade", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtCidade.requestFocus();
 		} else if (cboUf.getSelectedItem().equals("")) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo UF", "AtenÃ§Ã£o !", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo UF", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			cboUf.requestFocus();
 		} else {
 
 			// inserir o cliente no banco
-			String create = "insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String create = "insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone1,fone2,email) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			try {
 				Connection con = dao.conectar();
 				PreparedStatement pst = con.prepareStatement(create);
