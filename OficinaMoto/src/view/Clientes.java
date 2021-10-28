@@ -279,6 +279,11 @@ public class Clientes extends JDialog {
 		getContentPane().add(btnAdicionar);
 
 		btnEditar = new JButton("");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editarCliente();
+			}
+		});
 		btnEditar.setEnabled(false);
 		btnEditar.setIcon(new ImageIcon(Clientes.class.getResource("/icon/update.png")));
 		btnEditar.setToolTipText("Editar");
@@ -286,6 +291,11 @@ public class Clientes extends JDialog {
 		getContentPane().add(btnEditar);
 
 		btnExcluir = new JButton("");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluirCliente();
+			}
+		});
 		btnExcluir.setEnabled(false);
 		btnExcluir.setIcon(new ImageIcon(Clientes.class.getResource("/icon/delete.png")));
 		btnExcluir.setToolTipText("Excluir");
@@ -302,7 +312,7 @@ public class Clientes extends JDialog {
 		RestrictedTextField nome = new RestrictedTextField(txtNome);
 		nome.setLimit(50);
 		RestrictedTextField cnh = new RestrictedTextField(txtCnh);
-		cnh.setLimit(12);
+		cnh.setLimit(11);
 		RestrictedTextField cpf = new RestrictedTextField(txtCpf);
 		cpf.setLimit(11);
 		cpf.setOnlyNums(true);
@@ -327,6 +337,7 @@ public class Clientes extends JDialog {
 		fone2.setLimit(11);
 		fone2.setOnlyNums(true);
 		RestrictedTextField email = new RestrictedTextField(txtEmail);
+		email.setLimit(250);
 
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
@@ -336,7 +347,6 @@ public class Clientes extends JDialog {
 		});
 		btnLimpar.setBounds(643, 360, 89, 23);
 		getContentPane().add(btnLimpar);
-		email.setLimit(250);
 
 	}// end of the constructor
 
@@ -393,6 +403,9 @@ public class Clientes extends JDialog {
 	private JButton btnExcluir;
 	private JButton btnLimpar;
 
+	/**
+	 * Método responsável por fazer pesquisa avançada do cliente no bando de dados
+	 */
 	private void pesquisarCliente() {
 		String read = "select idcli as ID, nome as Cliente, cnh as CNH, cpf as CPF, cep as CEP, endereco as Endereço, numero as Número, complemento as Complemento, bairro as Bairro, cidade as Cidade, uf as UF, fone1 as Fone1, fone2 as Fone2, email as Email from clientes where nome like ?";
 		try {
@@ -407,7 +420,7 @@ public class Clientes extends JDialog {
 	}// fim do metodo pesquisarCliente()
 
 	/**
-	 * metodo responsável por adicionar um cliente no banco
+	 * Método responsável por adicionar um cliente no banco
 	 */
 	private void adicionarCliente() {
 		// validacao de campos obrigatorios
@@ -421,11 +434,10 @@ public class Clientes extends JDialog {
 			JOptionPane.showMessageDialog(null, "Preencha o campo CPF", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtCpf.requestFocus();
 		} else if (txtEndereco.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo Endereco", "Atenção !",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo Endereco", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtEndereco.requestFocus();
 		} else if (txtNumero.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo NÃºmero", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo Número", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtNumero.requestFocus();
 		} else if (txtBairro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo Bairro", "Atenção !", JOptionPane.WARNING_MESSAGE);
@@ -437,7 +449,6 @@ public class Clientes extends JDialog {
 			JOptionPane.showMessageDialog(null, "Preencha o campo UF", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			cboUf.requestFocus();
 		} else {
-
 			// inserir o cliente no banco
 			String create = "insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone1,fone2,email) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			try {
@@ -475,6 +486,104 @@ public class Clientes extends JDialog {
 	}// fim do metodo adicionarCliente()
 
 	/**
+	 * metodo responsavel pela edicao dos dados do cliente
+	 */
+	private void editarCliente() {
+		// validacao de campos obrigatorios
+		if (txtNome.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Nome", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtNome.requestFocus();
+		} else if (txtFone1.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Fone1", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtFone1.requestFocus();
+		} else if (txtCpf.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo CPF", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtCpf.requestFocus();
+		} else if (txtEndereco.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Endereco", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtEndereco.requestFocus();
+		} else if (txtNumero.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Número", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtNumero.requestFocus();
+		} else if (txtBairro.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Bairro", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtBairro.requestFocus();
+		} else if (txtCidade.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Cidade", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			txtCidade.requestFocus();
+		} else if (cboUf.getSelectedItem().equals("")) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo UF", "Atenção !", JOptionPane.WARNING_MESSAGE);
+			cboUf.requestFocus();
+		} else {
+			// editar o cliente no banco
+			String create = "update clientes set nome=?,cnh=?,cpf=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=?,fone1=?,fone2=?,email=? where idcli=?";
+			try {
+				Connection con = dao.conectar();
+				PreparedStatement pst = con.prepareStatement(create);
+				pst.setString(1, txtNome.getText());
+				pst.setString(2, txtCnh.getText());
+				pst.setString(3, txtCpf.getText());
+				pst.setString(4, txtCep.getText());
+				pst.setString(5, txtEndereco.getText());
+				pst.setString(6, txtNumero.getText());
+				pst.setString(7, txtComplemento.getText());
+				pst.setString(8, txtBairro.getText());
+				pst.setString(9, txtCidade.getText());
+				pst.setString(10, cboUf.getSelectedItem().toString());
+				pst.setString(11, txtFone1.getText());
+				pst.setString(12, txtFone2.getText());
+				pst.setString(13, txtEmail.getText());
+				pst.setString(14, txtIdCli.getText());
+
+				// criando uma variavel que vai executar a query e receber o valor 1 em caso
+				// positivo (edicão do cliente no banco)
+				int confirma = pst.executeUpdate();
+				if (confirma == 1) {
+					JOptionPane.showMessageDialog(null, "Cliente editado com sucesso", "Mensagem",
+							JOptionPane.INFORMATION_MESSAGE);
+					con.close();
+					limpar();
+				}
+			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+				JOptionPane.showMessageDialog(null, "Cliente já cadastrado.\nCNH, CPF ou Email já existentes", "Aviso",
+						JOptionPane.WARNING_MESSAGE);
+				txtCpf.requestFocus();
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+	}// fim do metodo editarCliente()
+
+	/**
+	 * Método responsável por excluir do cliente do banco de dados
+	 */
+	private void excluirCliente() {
+		// confimação de exclusão
+		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste usuário?", "Atenção!",
+				JOptionPane.YES_NO_OPTION);
+		if (confirma == JOptionPane.YES_OPTION) {
+			String delete = "delete from clientes where idcli=?";
+			try {
+				Connection con = dao.conectar();
+				PreparedStatement pst = con.prepareStatement(delete);
+				pst.setString(1, txtIdCli.getText());
+				int excluir = pst.executeUpdate();
+				if (excluir == 1) {
+					limpar();
+					JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso", "Mensagem",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+				con.close();
+			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+				JOptionPane.showMessageDialog(null, "Exclusão não realizada.\nCliente possui OS em aberto.", "Aviso",
+						JOptionPane.WARNING_MESSAGE);
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+	}// fim do método excluirCliente()
+
+	/**
 	 * metodo e responsavel por setar os campos da tabela no formulario
 	 */
 	private void setarCampos() {
@@ -500,7 +609,7 @@ public class Clientes extends JDialog {
 		btnAdicionar.setEnabled(false);
 		btnEditar.setEnabled(true);
 		btnExcluir.setEnabled(true);
-	}
+	}// fim do método setarCampos()
 
 	/**
 	 * Limpar os campos
