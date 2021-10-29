@@ -1,4 +1,10 @@
+/**
+	Projeto de gestão de OS para oficina de motos
+    @author Ismael de Sousa, Heder Santos, Aryon Rabello
+*/
+
 create database oficina;
+use oficina;
 
 create table usuarios(
 	id int primary key auto_increment,
@@ -38,7 +44,8 @@ select * from usuarios;
 create table clientes(
 	idcli int primary key auto_increment,
     nome varchar(50) not null,
-    doc varchar(250) not null,
+    cnh char(11) unique,
+    cpf char(11) unique,
     cep char(8),
     endereco varchar(50) not null,
     numero varchar(12) not null,
@@ -46,41 +53,29 @@ create table clientes(
     bairro varchar(50) not null,
     cidade varchar(50) not null,
     uf char(2) not null,
-    fone varchar(15),
-    cel varchar(15) not null,
+    fone1 char(11) not null,
+    fone2 varchar(11),
     email varchar(100) unique
 );
-drop table clientes;
-alter table clientes add column cnh char(12) unique after nome;
-alter table clientes change doc cpf varchar(250) not null;
+
 describe clientes;
 
-insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
-values(
-	'Heder',10165879162,'5827364728','04673645','Rua Um','168','Casa','Vila Um','São Paulo','SP','','11973849285','example@heder.com'
-);
-insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
-values(
-	'Vitor',54476764388,'87654321213','07485394','Rua Dois','867','Casa','Vila Dois','São Paulo','SP','','11987654321','example@vitor.com'
-);
-insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
-values(
-	'Cassio',31432391440,'54862514586','87654321','Rua Tres','145','Casa','Vila Tres','São Paulo','SP','','987654321','example@cassio.com'
-);
-insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
-values(
-	'Ismael',50067056880,'52586895963','87654321','Rua Quatro','589','Casa','Vila Quatro','São Paulo','SP','','987654321','example@ismael.com'
-);
-insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone,cel,email)
-values(
-	'Daniel',70346927302,'45825214145','87654321','Rua Cinco','595','Casa','Vila Cinco','São Paulo','SP','','987654321','example@daniel.com'
+insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone1,fone2,email) values(
+'Heder Santos','97196646900','32746418045','57040230','Rua Caetés','115','','Jacintinho','Maceió','AL','11987458745','11954987986','hedersantos@email.com'
 );
 
+insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone1,fone2,email) values(
+'Vitor Andrade','77845675150','39215001093','79010916','Avenida Coronel Antonino','12','Casa','Coronel Antonino','Campo Grande','MS','11987487458','','vitorandrade@email.com'
+);
+
+insert into clientes(nome,cnh,cpf,cep,endereco,numero,complemento,bairro,cidade,uf,fone1,fone2,email) values(
+'Cleber Silva','76576288791','20637279026','58067004','Rua Benedito Damázio da Silva','89','Bloco 1 AP 2','Gramame','João Pessoa','PB','11985236471','1123587498','clebersilva@email.com'
+);
+
+
 -- CRUD Update
-update clientes set cel = '11987654321' where idcli = 3;
-update clientes set cel = '11987654321' where idcli = 4;
-update clientes set cel = '11987654321' where idcli = 5;
-update clientes set fone = '1195865469' where idcli = 3;
+update clientes set fone2 = '11987654321' where idcli = 1;
+update clientes set fone2 = '11987984321' where idcli = 2;
 
 select * from clientes;
 
@@ -105,7 +100,6 @@ create table tbos(
     datasaida date
 );
 
-drop table tbos;
 describe tbos;
 
 insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli)
@@ -146,19 +140,19 @@ select * from tbos;
 
 -- relatorio de tipo da OS 1
 select
-	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone as telefone,clientes.cel as celular,
+	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone1 as Fone1,clientes.fone2 as fone2,
     tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.valor,tbos.tipo
 from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Orçamento';
 
 -- relatorio de tipo da OS 2
 select
-	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone as telefone,clientes.cel as celular,
+	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone1 as Fone1,clientes.fone2 as fone2,
     tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.valor,tbos.tipo
 from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Serviço';
 
 -- relatorio de tipo da OS 3
 select
-	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone as telefone,clientes.cel as celular,
+	date_format(tbos.datacad,'%d/%m/%Y - %H:%i') as entrada,clientes.nome,clientes.fone1 as Fone1,clientes.fone2 as fone2,
     tbos.fabricante,tbos.modelo,tbos.defeitocli as defeito_cliente,tbos.defeitotec as defeito_tecnico,tbos.valor,tbos.tipo,
     date_format(tbos.datasaida,'%d/%m/%Y - %H:%i') as retirada,date_format(tbos.garantia,'%d/%m/%Y - %H:%i') as garantia
 from tbos inner join clientes on tbos.idcli = clientes.idcli where tipo = 'Finalizado';
