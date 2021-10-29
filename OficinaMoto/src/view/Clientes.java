@@ -315,6 +315,7 @@ public class Clientes extends JDialog {
 		nome.setLimit(50);
 		RestrictedTextField cnh = new RestrictedTextField(txtCnh);
 		cnh.setLimit(11);
+		cnh.setOnlyNums(true);
 		RestrictedTextField cpf = new RestrictedTextField(txtCpf);
 		cpf.setLimit(11);
 		cpf.setOnlyNums(true);
@@ -353,7 +354,7 @@ public class Clientes extends JDialog {
 	}// end of the constructor
 
 	/**
-	 * Metodo para buscar o cep no webservise: republicavirtual.com.br
+	 * Método para buscar o cep no webservise: republicavirtual.com.br
 	 */
 	private void buscarCep() {
 		String logradouro = "";
@@ -488,7 +489,7 @@ public class Clientes extends JDialog {
 	}// fim do metodo adicionarCliente()
 
 	/**
-	 * metodo responsavel pela edicao dos dados do cliente
+	 * Método responsável por editar os dados do cliente no banco de dados
 	 */
 	private void editarCliente() {
 		// validacao de campos obrigatorios
@@ -517,7 +518,6 @@ public class Clientes extends JDialog {
 			JOptionPane.showMessageDialog(null, "Preencha o campo UF", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			cboUf.requestFocus();
 		} else {
-			// editar o cliente no banco
 			String create = "update clientes set nome=?,cnh=?,cpf=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=?,fone1=?,fone2=?,email=? where idcli=?";
 			try {
 				Connection con = dao.conectar();
@@ -557,7 +557,7 @@ public class Clientes extends JDialog {
 	}// fim do metodo editarCliente()
 
 	/**
-	 * Método responsável por excluir do cliente do banco de dados
+	 * Método responsável por excluir o cliente do banco de dados
 	 */
 	private void excluirCliente() {
 		// confimação de exclusão
@@ -586,7 +586,7 @@ public class Clientes extends JDialog {
 	}// fim do método excluirCliente()
 
 	/**
-	 * metodo e responsavel por setar os campos da tabela no formulario
+	 * Método responsável por setar os campos da tabela no formulario
 	 */
 	private void setarCampos() {
 		// a linha abaixo obtem o conteudo da linha da tabela
@@ -607,14 +607,14 @@ public class Clientes extends JDialog {
 		txtFone1.setText(table.getModel().getValueAt(setar, 11).toString());
 		txtFone2.setText(table.getModel().getValueAt(setar, 12).toString());
 		txtEmail.setText(table.getModel().getValueAt(setar, 13).toString());
-		// gerenciar os botoes
+		// Gerenciar botões
 		btnAdicionar.setEnabled(false);
 		btnEditar.setEnabled(true);
 		btnExcluir.setEnabled(true);
 	}// fim do método setarCampos()
 
 	/**
-	 * Limpar os campos
+	 * Método responsável por zerar os campos
 	 */
 	private void limpar() {
 		// limpar campos
@@ -637,7 +637,7 @@ public class Clientes extends JDialog {
 		txtEmail.setText(null);
 		// limpar tabela
 		((DefaultTableModel) table.getModel()).setRowCount(0);
-		// gerenciar os botoes
+		// gerenciar os botões
 		btnAdicionar.setEnabled(true);
 		btnEditar.setEnabled(false);
 		btnExcluir.setEnabled(false);

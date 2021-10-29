@@ -68,24 +68,24 @@ public class Oficina extends JFrame {
 		bcg.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(bcg);
 		bcg.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
 		panel.setBounds(0, 333, 764, 50);
 		bcg.add(panel);
 		panel.setLayout(null);
-		
+
 		lblStatus = new JLabel("");
 		lblStatus.setIcon(new ImageIcon(Oficina.class.getResource("/icon/dbof.png")));
 		lblStatus.setBounds(10, 10, 32, 32);
 		panel.add(lblStatus);
-		
+
 		lblTime = new JLabel("");
 		lblTime.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblTime.setForeground(Color.WHITE);
 		lblTime.setBounds(401, 11, 353, 28);
 		panel.add(lblTime);
-		
+
 		JButton btnUser = new JButton("");
 		btnUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -98,7 +98,7 @@ public class Oficina extends JFrame {
 		btnUser.setToolTipText("Usu\u00E1rio");
 		btnUser.setBounds(10, 21, 128, 128);
 		bcg.add(btnUser);
-		
+
 		JButton btnClient = new JButton("");
 		btnClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -111,20 +111,20 @@ public class Oficina extends JFrame {
 		btnClient.setToolTipText("Clientes");
 		btnClient.setBounds(10, 179, 128, 128);
 		bcg.add(btnClient);
-		
+
 		JButton btnRelat = new JButton("");
 		btnRelat.setIcon(new ImageIcon(Oficina.class.getResource("/icon/relatorio.png")));
 		btnRelat.setBackground(SystemColor.scrollbar);
 		btnRelat.setToolTipText("Relat\u00F3rios");
 		btnRelat.setBounds(615, 179, 128, 128);
 		bcg.add(btnRelat);
-		
+
 		JButton btnSobre = new JButton("");
 		btnSobre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//clicar no botao
-				Sobre sobre = new Sobre(); //criar objeto
-				sobre.setVisible(true); //exibit o JDialog Sobre
+				// clicar no botao
+				Sobre sobre = new Sobre(); // criar objeto
+				sobre.setVisible(true); // exibit o JDialog Sobre
 			}
 		});
 		btnSobre.setIcon(new ImageIcon(Oficina.class.getResource("/icon/sobre.png")));
@@ -132,12 +132,12 @@ public class Oficina extends JFrame {
 		btnSobre.setBackground(SystemColor.scrollbar);
 		btnSobre.setBounds(605, 11, 128, 128);
 		bcg.add(btnSobre);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(Oficina.class.getResource("/icon/iconmoto1.png")));
 		lblNewLabel_1.setBounds(332, 11, 64, 64);
 		bcg.add(lblNewLabel_1);
-		
+
 		JButton btnOs = new JButton("");
 		btnOs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -150,39 +150,29 @@ public class Oficina extends JFrame {
 		btnOs.setBounds(300, 179, 128, 128);
 		bcg.add(btnOs);
 	} // fim do construtor
-	
+
 	/**
-	 * Metodo responsavel por setar a data e hora do rodape
+	 * Método responsável por setar a data e hora no rodapé
 	 */
 	private void setarData() {
-		// as linhas abaixo sao usadas para obter e formatar a hora do sistema
 		Date dataLabel = new Date();
 		DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
-		// a linha abaixo substitui a label do rodape pela data
 		lblTime.setText(formatador.format(dataLabel));
 	}
-	
+
 	/**
 	 * Método responsável pela exibição do status de conexão
 	 */
 	private void status() {
-		// criar um objeto de nome dao para acessar o método de conexão
 		DAO dao = new DAO();
 		try {
-			// abrir a conexão com o banco
 			Connection con = dao.conectar();
-
-			// a linha abaixo exibe o retorno da conexão
 			System.out.println(con);
-
-			// mudando o ícone do rodapé no caso do banco de dados estar disponível
 			if (con != null) {
 				lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/dbon.png")));
 			} else {
 				lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/dbof.png")));
 			}
-
-			// IMPORTANTE! Sempre encerrar a conexão
 			con.close();
 		} catch (Exception e) {
 			System.out.println(e);

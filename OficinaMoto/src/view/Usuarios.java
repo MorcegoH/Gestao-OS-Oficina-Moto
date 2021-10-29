@@ -197,7 +197,7 @@ public class Usuarios extends JDialog {
 	private JPasswordField txtSenha;
 
 	/**
-	 * Método responsável pela pesquisa do usuário com uso da biblioteca rs2xml
+	 * Método responsável por fazer pesquisa avançada do cliente no bando de dados
 	 */
 	private void pesquisarUsuario() {
 		// ? -> parâmetro
@@ -220,7 +220,7 @@ public class Usuarios extends JDialog {
 	}
 
 	/**
-	 * Método responsável por setar os campos da tabelo no formulário
+	 * Método responsável por setar os campos da tabela no formulario
 	 */
 	private void setarCampos() {
 		// a linha abaixo obtem o conteúdo da linha da tabela
@@ -238,7 +238,7 @@ public class Usuarios extends JDialog {
 	}
 
 	/**
-	 * Método específico para setar a senha
+	 * Método responsável por setar a senha no campo txtSenha
 	 */
 	public void setarSenha() {
 		String read2 = "select senha from usuarios where id = ?";

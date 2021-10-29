@@ -84,6 +84,9 @@ public class Servico extends JDialog {
 	DAO dao = new DAO();
 	private JTextField txtPesquisa;
 
+	/**
+	 * Método responsável por pesquisar clientes no banco de dados
+	 */
 	private void pesquisarServico() {
 		String read = "select idcli as ID, nome as Nome, cnh as CNH, cpf as CPF, cep as Cep, endereco as Endereço, numero as Nº,"
 				+ "complemento as Complemento, bairro as Bairro, cidade as Cidade, uf as UF, fone1 as Cel, fone2 as Fone,"

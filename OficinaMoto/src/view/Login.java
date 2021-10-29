@@ -111,5 +111,5 @@ public class Login extends JFrame {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-	}
+	}// fim do método status()
 }
