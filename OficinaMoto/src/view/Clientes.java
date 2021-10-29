@@ -80,6 +80,8 @@ public class Clientes extends JDialog {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Clientes() {
+		setResizable(false);
+		setModal(true);
 		getContentPane().setBackground(Color.LIGHT_GRAY);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Clientes.class.getResource("/icon/icon.png")));
 		setTitle("Cadastrar Clientes");

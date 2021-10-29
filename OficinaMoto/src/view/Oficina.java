@@ -87,6 +87,12 @@ public class Oficina extends JFrame {
 		panel.add(lblTime);
 		
 		JButton btnUser = new JButton("");
+		btnUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Usuarios usuarios = new Usuarios();
+				usuarios.setVisible(true);
+			}
+		});
 		btnUser.setBackground(SystemColor.scrollbar);
 		btnUser.setIcon(new ImageIcon(Oficina.class.getResource("/icon/usuarios.png")));
 		btnUser.setToolTipText("Usu\u00E1rio");
@@ -133,6 +139,12 @@ public class Oficina extends JFrame {
 		bcg.add(lblNewLabel_1);
 		
 		JButton btnOs = new JButton("");
+		btnOs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Servico servico = new Servico();
+				servico.setVisible(true);
+			}
+		});
 		btnOs.setBackground(SystemColor.scrollbar);
 		btnOs.setIcon(new ImageIcon(Oficina.class.getResource("/icon/os.png")));
 		btnOs.setBounds(300, 179, 128, 128);

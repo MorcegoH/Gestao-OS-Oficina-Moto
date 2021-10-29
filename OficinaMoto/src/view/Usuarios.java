@@ -63,7 +63,7 @@ public class Usuarios extends JDialog {
 		setResizable(false);
 		setModal(true);
 		setTitle("Usu\u00E1rios");
-		setBounds(100, 100, 682, 435);
+		setBounds(150, 150, 682, 435);
 		getContentPane().setLayout(null);
 
 		txtPesquisar = new JTextField();
