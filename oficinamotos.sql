@@ -45,7 +45,7 @@ create table clientes(
 	idcli int primary key auto_increment,
     nome varchar(50) not null,
     cnh char(11) unique,
-    cpf char(11) unique,
+    cpf char(11) unique not null,
     cep char(8),
     endereco varchar(50) not null,
     numero varchar(12) not null,
