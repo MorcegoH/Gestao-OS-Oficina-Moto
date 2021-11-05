@@ -45,7 +45,7 @@ create table clientes(
 	idcli int primary key auto_increment,
     nome varchar(50) not null,
     cnh char(11) unique,
-    cpf char(11) unique not null,
+    cpf char(11) unique,
     cep char(8),
     endereco varchar(50) not null,
     numero varchar(12) not null,
@@ -83,6 +83,7 @@ create table tbos(
 	os int primary key auto_increment,
     datacad timestamp default current_timestamp,
     tipo varchar(20) not null,
+    statusos varchar(30) not null,
     defeitocli varchar(200) not null,
     defeitotec varchar(200),
 	modelo varchar(50) not null,
@@ -102,34 +103,19 @@ create table tbos(
 
 describe tbos;
 
-insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli)
+insert into tbos(tipo,statusos,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli)
 values(
-	'Orçamento','Corrente frouxa','Corrente frouxa','Vespa','Lambretta','2021','HGJ6458','Gasolina',1,250,'42043lXZuYw011150','1'
+	'Orçamento','Aguardando aprovação','Corrente frouxa','Corrente frouxa','Vespa','Lambretta','2021','HGJ6458','Gasolina',1,250,'42043lXZuYw011150','1'
 );
 
-insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli)
+insert into tbos(tipo,statusos,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli)
 values(
-	'Orçamento','Problema na partida','Relé de partida quebrado','Dark Horse','Indian','2016','ADS4568','Gasolina',2,5000,'6CTl4uKCA5B4X0532','2'
+	'Orçamento','Aguardando aprovação','Problema na partida','Relé de partida quebrado','Dark Horse','Indian','2016','ADS4568','Gasolina',2,5000,'6CTl4uKCA5B4X0532','2'
 );
 
-insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli,garantia)
+insert into tbos(tipo,statusos,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli,garantia)
 values(
-	'Serviço','Ajuste de freio','Troca da lona','Fan 150','Honda','2017','DSH4652','Gasolina',3,300,'7F1jEs91ll1E76580','3',20220116
-);
-
-insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli)
-values(
-	'Orçamento','Vela','Chicote','Virago 535','Yamaha','2005','NJD1325','Gasolina',3,500,'4LlGA9R9sXKAy5626','3'
-);
-
-insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli,garantia,datasaida)
-values(
-	'Finalizado','Troca de óleo','Troca de óleo','F800','BMW','2019','SDH8485','Gasolina',2,80,'2VKC546DkAUCK8945','2',20220217,'20211014'
-);
-
-insert into tbos(tipo,defeitocli,defeitotec,modelo,fabricante,ano,placa,combustivel,tecnico,valor,chassi,idcli,garantia,datasaida)
-values(
-	'Finalizado','Filtro de ar','e troca de óleo','Twister','Honda','2015','JUD4568','Gasolina',1,550.25,'25lnDum3DAzSu8566','1',20220324,20211005
+	'Serviço','retirado','Ajuste de freio','Troca da lona','Fan 150','Honda','2017','DSH4652','Gasolina',3,300,'7F1jEs91ll1E76580','3',20220116
 );
 
 -- CRUD Update
