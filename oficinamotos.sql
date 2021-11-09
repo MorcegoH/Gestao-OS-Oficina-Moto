@@ -14,6 +14,8 @@ create table usuarios(
     perfil varchar(50) not null
 );
 
+update usuarios set senha = md5('123') where id = 10;
+
 insert into usuarios(usuario, login, senha, perfil)
 values(
 	'Maria','admin',md5('123@senac'),'administrador'
