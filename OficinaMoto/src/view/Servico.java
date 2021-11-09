@@ -137,8 +137,7 @@ public class Servico extends JDialog {
 		panel.add(chkOrcamento);
 
 		cboStatus = new JComboBox();
-		cboStatus.setModel(new DefaultComboBoxModel(new String[] { "", "Aguardando aprova\u00E7\u00E3o", "Em reparo",
-				"Aguardando retirada", "Retirado", "Or\u00E7amento reprovado" }));
+		cboStatus.setModel(new DefaultComboBoxModel(new String[] {"", "Aguardando aprova\u00E7\u00E3o", "Em reparo", "Aguardando retirada", "Retirado", "Or\u00E7amento reprovado"}));
 		cboStatus.setBounds(243, 122, 188, 22);
 		panel.add(cboStatus);
 
@@ -351,6 +350,12 @@ public class Servico extends JDialog {
 		tecnico.setOnlyNums(true);
 		RestrictedTextField chassi = new RestrictedTextField(txtChassi);
 		chassi.setLimit(17);
+		RestrictedTextField garantia = new RestrictedTextField(txtGarantia);
+		garantia.setLimit(8);
+		garantia.setOnlyNums(true);
+		RestrictedTextField retirada = new RestrictedTextField(txtRetirada);
+		retirada.setLimit(8);
+		retirada.setOnlyNums(true);
 	} // fim do construtor
 
 	DAO dao = new DAO();
@@ -461,7 +466,11 @@ public class Servico extends JDialog {
 		// validação
 		if (txtIdCli.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha ID do cliente", "Atenção !", JOptionPane.WARNING_MESSAGE);
-			txtIdCli.requestFocus();
+			txtPesquisa.requestFocus();
+		} else if (txtDefeitoInfo.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo Defeito Informado", "Atenção !",
+					JOptionPane.WARNING_MESSAGE);
+			txtDefeitoInfo.requestFocus();
 		} else if (tipo == null) {
 			JOptionPane.showMessageDialog(null, "Selecione o tipo de OS", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			chkOrcamento.requestFocus();
@@ -469,10 +478,6 @@ public class Servico extends JDialog {
 			JOptionPane.showMessageDialog(null, "Selecione qual o status da OS", "Atenção !",
 					JOptionPane.WARNING_MESSAGE);
 			cboStatus.requestFocus();
-		} else if (txtDefeitoInfo.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo Defeito Informado", "Atenção !",
-					JOptionPane.WARNING_MESSAGE);
-			txtDefeitoInfo.requestFocus();
 		} else if (txtModelo.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo Modelo", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			txtModelo.requestFocus();
@@ -536,7 +541,7 @@ public class Servico extends JDialog {
 		// validação
 		if (txtIdCli.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha ID do cliente", "Atenção !", JOptionPane.WARNING_MESSAGE);
-			txtIdCli.requestFocus();
+			txtPesquisa.requestFocus();
 		} else if (tipo == null) {
 			JOptionPane.showMessageDialog(null, "Selecione o tipo de OS", "Atenção !", JOptionPane.WARNING_MESSAGE);
 			chkOrcamento.requestFocus();
@@ -643,7 +648,7 @@ public class Servico extends JDialog {
 		txtDefeitoInfo.setText(null);
 		// tirar seleção do checkbox
 		buttonGroup.clearSelection();
-		cboStatus.setSelectedItem(null);
+		cboStatus.setSelectedItem("");
 		txtModelo.setText(null);
 		txtFabricante.setText(null);
 		txtAno.setText(null);

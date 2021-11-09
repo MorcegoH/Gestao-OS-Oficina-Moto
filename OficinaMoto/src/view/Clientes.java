@@ -631,7 +631,7 @@ public class Clientes extends JDialog {
 		txtBairro.setText(null);
 		txtCidade.setText(null);
 		txtNome.setText(null);
-		cboUf.setSelectedItem(null);
+		cboUf.setSelectedItem("");
 		txtFone1.setText(null);
 		txtFone2.setText(null);
 		txtEmail.setText(null);
