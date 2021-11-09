@@ -122,16 +122,19 @@ public class Login extends JFrame {
 			System.out.println(e);
 		}
 	}// fim do método status()
-	
+
 	DAO dao = new DAO();
+
 	/**
 	 * Método responsável pela autenticação do usuário
 	 */
 	private void logar() {
 		if (txtLogin.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo Login", "Atenção!", JOptionPane.WARNING_MESSAGE);
+			txtLogin.requestFocus();
 		} else if (txtSenha.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo Senha", "Atenção!", JOptionPane.WARNING_MESSAGE);
+			txtSenha.requestFocus();
 		} else {
 			try {
 				String read = "select * from usuarios where login=? and senha=md5(?)";
@@ -143,12 +146,32 @@ public class Login extends JFrame {
 				// objeto rs
 				ResultSet rs = pst.executeQuery();
 				// se existir o login e senha correspondente
+				// se existir o login e senha correspondente
 				if (rs.next()) {
-					// ir para a área do cliente
-					Oficina oficina = new Oficina();
-					oficina.setVisible(true);
-					// finalizar o JFrame
-					this.dispose();
+					// capturar o perfil do usuário
+					String perfil = rs.getString(5);
+					// System.out.println(perfil);
+
+					// tratamento de perfil de usuário
+					if (perfil.equals("administrador")) {
+						Oficina oficina = new Oficina();
+						oficina.setVisible(true);
+						// liberar os botões
+						oficina.btnRelatorios.setEnabled(true);
+						oficina.btnUser.setEnabled(true);
+						// finalizar o JFrame
+						this.dispose();
+					} else if (perfil.equals("operador")) {
+						Oficina oficina = new Oficina();
+						oficina.setVisible(true);
+						// finalizar o JFrame
+						this.dispose();
+					} else {
+						Oficina oficina = new Oficina();
+						oficina.setVisible(true);
+						// finalizar o JFrame
+						this.dispose();
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Login e/ou senha inválido(s)", "Atenção!",
 							JOptionPane.WARNING_MESSAGE);

@@ -29,6 +29,8 @@ public class Oficina extends JFrame {
 	private JPanel bcg;
 	private JLabel lblTime;
 	private JLabel lblStatus;
+	public JButton btnRelatorios;
+	public JButton btnUser;
 
 	/**
 	 * Launch the application.
@@ -86,7 +88,8 @@ public class Oficina extends JFrame {
 		lblTime.setBounds(401, 11, 353, 28);
 		panel.add(lblTime);
 
-		JButton btnUser = new JButton("");
+		btnUser = new JButton("");
+		btnUser.setEnabled(false);
 		btnUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuarios usuarios = new Usuarios();
@@ -112,12 +115,13 @@ public class Oficina extends JFrame {
 		btnClient.setBounds(10, 179, 128, 128);
 		bcg.add(btnClient);
 
-		JButton btnRelat = new JButton("");
-		btnRelat.setIcon(new ImageIcon(Oficina.class.getResource("/icon/relatorio.png")));
-		btnRelat.setBackground(SystemColor.scrollbar);
-		btnRelat.setToolTipText("Relat\u00F3rios");
-		btnRelat.setBounds(615, 179, 128, 128);
-		bcg.add(btnRelat);
+		btnRelatorios = new JButton("");
+		btnRelatorios.setEnabled(false);
+		btnRelatorios.setIcon(new ImageIcon(Oficina.class.getResource("/icon/relatorio.png")));
+		btnRelatorios.setBackground(SystemColor.scrollbar);
+		btnRelatorios.setToolTipText("Relat\u00F3rios");
+		btnRelatorios.setBounds(615, 179, 128, 128);
+		bcg.add(btnRelatorios);
 
 		JButton btnSobre = new JButton("");
 		btnSobre.addActionListener(new ActionListener() {
