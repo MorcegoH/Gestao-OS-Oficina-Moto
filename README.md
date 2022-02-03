@@ -8,6 +8,7 @@ Sistema de Gestão de Ordem de Serviço para Oficina Mecânica de Motocicleta - 
 
 ### Linguagem 
 - SQL
+- Java
 
 ### Licença
 Este projeto está licenciado sob a licença MIT - Consulte o arquivo LICENSE.md para detalhes.
